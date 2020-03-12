@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ch2_1</string>
     <string name="str">登录</string>
+    <string name="str1">账号</string>
+    <string name="str2">密码</string>
     <string name="strr">注册</string>
 </resources>
