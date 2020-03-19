@@ -2,5 +2,7 @@
 <resources>
     <string name="app_name">ch2_1</string>
     <string name="str1">生日快乐</string>
-    <string name="strr">林雪倪</string>
+    <string name="button">按钮</string>
+    <string name="dft">默认</string>
+    <string name="hint">提示</string>
 </resources>

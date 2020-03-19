@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ch2_1</string>
     <string name="str1">HappyBirthday</string>
-    <string name="strr">From lxn</string>
+    <string name="button">button</string>
+    <string name="dft">default</string>
+    <string name="hint">hint</string>
 </resources>
