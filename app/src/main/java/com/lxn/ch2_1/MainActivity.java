@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  {
      TextView out;
      EditText edit;
     @Override
@@ -19,10 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         out= findViewById(R.id.textView);
         edit= findViewById(R.id.editText);
         Button btn= findViewById(R.id.button);
-        btn.setOnClickListener(this);
     }
-    public void onClick(View v){
-        Log.i("main","onClick msg....");
+    public void on(View v){
         String str=edit.getText().toString();
         out.setText(str);
     }
