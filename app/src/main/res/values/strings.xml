@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ch2_1</string>
-    <string name="str1">HappyBirthday</string>
-    <string name="button">button</string>
-    <string name="dft">default</string>
-    <string name="hint">hint</string>
+    <string name="str1">结果为：</string>
+    <string name="button">转换为华氏温度</string>
+    <string name="dft">请输入摄氏度</string>
+    <string name="hint">数字</string>
 </resources>
