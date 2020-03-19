@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
      TextView out;
      EditText edit;
     @Override
@@ -19,16 +19,18 @@ public class MainActivity extends AppCompatActivity {
         out= findViewById(R.id.textView);
         edit= findViewById(R.id.editText);
         Button btn= findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Log.i("mail","onClick called....");
-                String str=edit.getText().toString();
-                float s= Float.parseFloat(str);
-                String result= String.valueOf((s*5/9)+32);
-                out.setText("结果为"+result);
-            }
-            }
-        );
+
     }
 
+    @Override
+    public void onClick(View v) {
+        String str=edit.getText().toString();
+        float p= Float.parseFloat(str);
+        String s= String.valueOf((p*5/9)+32);
+        out.setText("结果为"+s);
+        Log.i("click","onClickcalled");
+    }
+    public void btnClick(View v) {
+        Log.i("click","btnClick");
+    }
 }
