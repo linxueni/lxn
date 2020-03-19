@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity  {
         String str=edit.getText().toString();
         float s= Float.parseFloat(str);
         String result= String.valueOf((s*5/9)+32);
-        out.setText(result);
+        out.setText("结果为"+result);
     }
 }
