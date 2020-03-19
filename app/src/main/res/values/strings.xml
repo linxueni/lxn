@@ -4,5 +4,6 @@
     <string name="button">转换为华氏温度</string>
     <string name="dft">请输入摄氏度</string>
     <string name="hint">请输入摄氏度</string>
+    <string name="btn_label">Button</string>
 
 </resources>
