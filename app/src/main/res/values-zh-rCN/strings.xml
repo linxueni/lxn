@@ -16,5 +16,6 @@
     <string name="lable_dollar">美元</string>
     <string name="lable_euro">欧元</string>
     <string name="lable_won">韩元</string>
+    <string name="change">切换</string>
     <string name="lable_rmb_hint">请输入人民币</string>
 </resources>

@@ -15,5 +15,6 @@
     <string name="lable_won">Won</string>
     <string name="lable_rmb_hint">Input RMB</string>
     <string name="score">0</string>
+    <string name="change">change</string>
     <string name="head">温度转换器</string>
 </resources>
