@@ -34,5 +34,23 @@ public class ConfigActivity extends AppCompatActivity {
     }
     public void save(View btn){
         Log.i(TAG,"save: ");
+        //获取新的输入数据
+        float newDollar=Float.parseFloat(dollarText.getText().toString());
+        float newEuro=Float.parseFloat(euroText.getText().toString());
+        float newWon=Float.parseFloat(wonText.getText().toString());
+        Log.i(TAG,"save: 获取到新的值：");
+        Log.i(TAG,"onCreate:newDollar="+newDollar);
+        Log.i(TAG,"onCreate:newEuro="+newEuro);
+        Log.i(TAG,"onCreate:newWon="+newWon);
+        // 保存到Bundle或放到Extra
+        Intent intent=getIntent();
+        Bundle bdl=new Bundle();
+        bdl.putFloat("key_dollar",newDollar);
+        bdl.putFloat("key_euro",newEuro);
+        bdl.putFloat("key_won",newWon);
+        intent.putExtras(bdl);
+        setResult(2,intent);
+        //返回到调用页面
+        finish();
     }
 }
