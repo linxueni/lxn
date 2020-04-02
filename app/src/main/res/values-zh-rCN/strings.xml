@@ -19,4 +19,5 @@
     <string name="change">切换</string>
     <string name="lable_rmb_hint">请输入人民币</string>
     <string name="btn_save_label">保存</string>
+    <string name="menu_set">设置</string>
 </resources>

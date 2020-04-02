@@ -3,11 +3,14 @@ package com.lxn.ch2_1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,15 +57,20 @@ public class RateActivity extends AppCompatActivity {
         //Intent hello=new Intent(this,SecondActivity.class);
         //Intent web=new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jd.com"));
        // Intent intent=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:13880321454"));
-        Intent config=new Intent(this,ConfigActivity.class);
-        config.putExtra("dollar_rate_key",dollarRate);
-        config.putExtra("euro_rate_key",euroRate);
-        config.putExtra("won_rate_key",wonRate);
-        Log.i("openone","dollarRate="+dollarRate);
-        Log.i("openone","euroRate="+euroRate);
-        Log.i("openone","wonRate="+wonRate);
+        Intent config = openConfig();
         //startActivity(config);
         startActivityForResult(config,1);
+    }
+
+    private Intent openConfig() {
+        Intent config = new Intent(this, ConfigActivity.class);
+        config.putExtra("dollar_rate_key", dollarRate);
+        config.putExtra("euro_rate_key", euroRate);
+        config.putExtra("won_rate_key", wonRate);
+        Log.i("openone", "dollarRate=" + dollarRate);
+        Log.i("openone", "euroRate=" + euroRate);
+        Log.i("openone", "wonRate=" + wonRate);
+        return config;
     }
 
     @Override
@@ -80,6 +88,23 @@ public class RateActivity extends AppCompatActivity {
             Log.i(TAG,"onActivityResult:wonRate="+wonRate);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.rate,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.menu_set){
+            Intent config = openConfig();
+            //startActivity(config);
+            startActivityForResult(config,1);
+
+        }
+        return super.onOptionsItemSelected(item);
     }
     /* public void startTimer(String message, int seconds) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)

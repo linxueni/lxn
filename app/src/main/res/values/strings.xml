@@ -18,4 +18,5 @@
     <string name="change">change</string>
     <string name="head">温度转换器</string>
     <string name="btn_save_label">Save</string>
+    <string name="menu_set">setting</string>
 </resources>
