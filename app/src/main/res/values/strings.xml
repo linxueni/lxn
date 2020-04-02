@@ -17,4 +17,5 @@
     <string name="score">0</string>
     <string name="change">change</string>
     <string name="head">温度转换器</string>
+    <string name="btn_save_label">Save</string>
 </resources>
