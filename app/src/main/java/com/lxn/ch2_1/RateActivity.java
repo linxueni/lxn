@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -17,13 +19,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RateActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+
+public class RateActivity extends AppCompatActivity implements Runnable{
      EditText rmb;
      TextView show;
      private final String TAG="Rate";
      private float dollarRate=0.1f;
     private float euroRate=0.2f;
     private float wonRate=0.3f;
+    Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +51,22 @@ public class RateActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate: sp dollarRate=" + dollarRate);
         Log.i(TAG, "onCreate: sp euroRate=" + euroRate);
         Log.i(TAG , "onCreate: sp wonRate=" + wonRate);
+        //开启子线程
+        Thread t=new Thread(this);
+        t.start();
+        handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+
+                if(msg.what==5){
+                    String str=(String)msg.obj;
+                    Log.i(TAG,"handleMessage:getMessage msg="+str);
+                    show.setText(str);
+                }
+                super.handleMessage(msg);
+            }
+
+        };//匿名类
     }
     public void onClick(View btn){
         String str=rmb.getText().toString();//获取用户输入类型
@@ -111,6 +139,7 @@ public class RateActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.rate,menu);
@@ -127,6 +156,52 @@ public class RateActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void run() {
+        Log.i(TAG, "run: run()......");
+        for (int i = 1; i < 6; i++) {
+            Log.i(TAG, "run: i=" + i);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Message msg = handler.obtainMessage(5);
+        //msg.what = 5;
+        msg.obj = "Hello from run()";
+        handler.sendMessage(msg);
+        //获取网络数据
+        URL url ;
+        try {
+            url = new URL("https://www.usd-cny.com/icbc.htm");
+            HttpURLConnection http = (HttpURLConnection) url.openConnection();
+            InputStream in = http.getInputStream();
+
+            String html = inputStream2String(in);
+            Log.i(TAG, "run: html=" + html);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private String inputStream2String(InputStream inputStream) throws  IOException {
+        final int bufferSize = 1024;
+        final char[] buffer = new char[bufferSize];
+        final StringBuilder out = new StringBuilder();
+        Reader in = new InputStreamReader(inputStream, "gb2312");
+        for( ; ;){
+            int rsz=in.read(buffer,0,buffer.length);
+            if(rsz<0)
+                break;
+            out.append(buffer,0,rsz);
+
+        }return out.toString();
+    }
+
+
     /* public void startTimer(String message, int seconds) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
                 .putExtra(AlarmClock.EXTRA_MESSAGE, message)
