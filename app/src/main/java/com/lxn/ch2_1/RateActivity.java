@@ -105,8 +105,7 @@ public class RateActivity extends AppCompatActivity {
             editor.putFloat("dollar_rate",dollarRate);
             editor.putFloat("euro_rate",euroRate);
             editor.putFloat("won_rate",wonRate);
-            //editor.commit();
-            editor.apply();
+            editor.commit();
             Log.i(TAG,"onActivityResult:数据已经保存在SP中");
         }
         super.onActivityResult(requestCode, resultCode, data);
