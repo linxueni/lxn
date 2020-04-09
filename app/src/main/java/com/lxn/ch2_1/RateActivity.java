@@ -1,7 +1,10 @@
 package com.lxn.ch2_1;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,14 +30,24 @@ public class RateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rate);
         rmb=findViewById(R.id.rmb);
         show=findViewById(R.id.showout);
+        //获得sp中保存的数据
+        SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+        SharedPreferences s=PreferenceManager.getDefaultSharedPreferences(this);//名字不能改
+        dollarRate=sp.getFloat("dollar_rate",0.0f);
+        euroRate=sp.getFloat("euro_rate",0.0f);
+        wonRate=sp.getFloat("won_rate",0.0f);
+        Log.i(TAG, "onCreate: sp dollarRate=" + dollarRate);
+        Log.i(TAG, "onCreate: sp euroRate=" + euroRate);
+        Log.i(TAG , "onCreate: sp wonRate=" + wonRate);
     }
     public void onClick(View btn){
         String str=rmb.getText().toString();//获取用户输入类型
-        float r=0;
+        float r;
         if(str.length()>0){
              r=Float.parseFloat(str);
         }else{
             Toast.makeText(this,"请输入金额",Toast.LENGTH_SHORT).show();
+            return;
         }
        // float val=0;
         if(btn.getId()==R.id.dollar){
@@ -86,6 +99,15 @@ public class RateActivity extends AppCompatActivity {
             Log.i(TAG,"onActivityResult:dollarRate="+dollarRate);
             Log.i(TAG,"onActivityResult:euroRate="+euroRate);
             Log.i(TAG,"onActivityResult:wonRate="+wonRate);
+            //将新设置的汇率写到sp中
+            SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor=sp.edit();
+            editor.putFloat("dollar_rate",dollarRate);
+            editor.putFloat("euro_rate",euroRate);
+            editor.putFloat("won_rate",wonRate);
+            //editor.commit();
+            editor.apply();
+            Log.i(TAG,"onActivityResult:数据已经保存在SP中");
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
