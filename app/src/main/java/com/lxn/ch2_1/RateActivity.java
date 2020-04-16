@@ -1,5 +1,6 @@
 package com.lxn.ch2_1;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,13 +20,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
+
+
 
 
 public class RateActivity extends AppCompatActivity implements Runnable{
@@ -36,6 +42,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
     private float euroRate=0.2f;
     private float wonRate=0.3f;
     Handler handler;
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +66,14 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             public void handleMessage(Message msg){
 
                 if(msg.what==5){
-                    String str=(String)msg.obj;
-                    Log.i(TAG,"handleMessage:getMessage msg="+str);
-                    show.setText(str);
+                    Bundle bdl=(Bundle)msg.obj;
+                    dollarRate=bdl.getFloat("dollar-rate");
+                    euroRate=bdl.getFloat("euro-rate");
+                    wonRate=bdl.getFloat("won-rate");
+                    Log.i("handleMessage", "dollarRate=" + dollarRate);
+                    Log.i("handleMessage", "euroRate=" + euroRate);
+                    Log.i("handleMessage", "wonRate=" + wonRate);
+                    Toast.makeText(RateActivity.this,"汇率更新",Toast.LENGTH_SHORT).show();
                 }
                 super.handleMessage(msg);
             }
@@ -120,7 +132,10 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             /*bdl.putFloat("key_dollar",newDollar);
             bdl.putFloat("key_euro",newEuro);
             bdl.putFloat("key_won",newWon);*/
-            Bundle bundle=data.getExtras();
+            Bundle bundle= null;
+            if (data != null) {
+                bundle = data.getExtras();
+            }
             dollarRate=bundle.getFloat("key_dollar",0.1f);
             euroRate=bundle.getFloat("key_euro",0.1f);
             wonRate=bundle.getFloat("key_won",0.1f);
@@ -133,7 +148,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             editor.putFloat("dollar_rate",dollarRate);
             editor.putFloat("euro_rate",euroRate);
             editor.putFloat("won_rate",wonRate);
-            editor.commit();//或者apply
+            editor.apply();//commit或者apply
             Log.i(TAG,"onActivityResult:数据已经保存在SP中");
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,7 +175,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
     @Override
     public void run() {
         Log.i(TAG, "run: run()......");
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 3; i++) {
             Log.i(TAG, "run: i=" + i);
             try {
                 Thread.sleep(2000);
@@ -168,24 +183,76 @@ public class RateActivity extends AppCompatActivity implements Runnable{
                 e.printStackTrace();
             }
         }
-        Message msg = handler.obtainMessage(5);
+        //用于保存获取的数据
+        Bundle bundle=new Bundle();
+        //获取MSG对象，用于返回主线程
+       /* Message msg = handler.obtainMessage(5);
         //msg.what = 5;
         msg.obj = "Hello from run()";
-        handler.sendMessage(msg);
+        handler.sendMessage(msg);*/
         //获取网络数据
-        URL url ;
+        /*URL url ;
         try {
             url = new URL("https://www.usd-cny.com/icbc.htm");
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             InputStream in = http.getInputStream();
-
             String html = inputStream2String(in);
             Log.i(TAG, "run: html=" + html);
+           Document doc=Jsoup.parse(html);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+        Document doc;
+        try {
+            doc = Jsoup.connect("https://www.usd-cny.com/bankofchina.htm").get();
+           // doc=Jsoup.parse(html);
+
+            Log.i(TAG, "run:" + doc.title());
+            /*Elements trs=doc.getElementsByTag("tr");
+            int i=1;
+            for(Element tr:trs){
+                Log.i(TAG,"run:tr["+i+"]="+tr);
+                i++;
+            }*/
+            Elements tds=doc.getElementsByTag("td");
+
+            /*for(Element td:tds){
+                //Log.i(TAG,"run:td="+td);
+                Log.i(TAG,"run:text="+td.text());
+               // Log.i(TAG,"run:html="+td.html());
+            }*/
+            for(int i=0;i<tds.size();i+=6){
+                Element td1=tds.get(i);
+                Element td2=tds.get(i+5);
+                Log.i(TAG,"run:text="+td1.text()+"==>"+td2.text());
+                String str1=td1.text();
+                String val=td2.text();
+                if("美元".equals(str1)){
+                    bundle.putFloat("dollar-rate",100f/Float.parseFloat(val));
+                } else if("欧元".equals(str1)){
+                    bundle.putFloat("euro-rate",100f/Float.parseFloat(val));
+                } else if("韩元".equals(str1)){
+                    bundle.putFloat("won-rate",100f/Float.parseFloat(val));
+                }
+
+            }
+            /*Elements newsHeadlines = doc.select("#mp-itn b a");
+            for (Element headline : newsHeadlines) {
+                Log.i(TAG, "%s\n\t%s" + headline.attr("title") + headline.absUrl("href"));
+            }*/
+            //获取td中的元素
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    //bundle中保存所获取的汇率
+        //获取MSG对象，用于返回主线程
+        Message msg = handler.obtainMessage(5);
+        //msg.what = 5;
+        msg.obj = bundle;
+        handler.sendMessage(msg);
     }
     private String inputStream2String(InputStream inputStream) throws  IOException {
         final int bufferSize = 1024;
