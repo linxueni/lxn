@@ -20,7 +20,7 @@ public class SecondActivity extends AppCompatActivity {
         score=findViewById(R.id.score1);
         score2=findViewById(R.id.score2);
     }
-//保存内容
+//保存内容！
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
