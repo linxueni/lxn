@@ -64,7 +64,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
         Log.i(TAG, "time:" +mYear2+" ！！ "+ mMonth2+"  "+mDay2);
         //获得sp中保存的数据
         SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
-        SharedPreferences s=PreferenceManager.getDefaultSharedPreferences(this);//名字不能改
+        SharedPreferences s= PreferenceManager.getDefaultSharedPreferences(this);//名字不能改
         dollarRate=sp.getFloat("dollar_rate",0.0f);
         euroRate=sp.getFloat("euro_rate",0.0f);
         wonRate=sp.getFloat("won_rate",0.0f);
