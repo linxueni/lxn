@@ -29,9 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-
-
+import java.util.Calendar;
 
 
 public class RateActivity extends AppCompatActivity implements Runnable{
@@ -41,7 +39,17 @@ public class RateActivity extends AppCompatActivity implements Runnable{
      private float dollarRate=0.1f;
     private float euroRate=0.2f;
     private float wonRate=0.3f;
+    public static int count=0;
     Handler handler;
+    Calendar calendar = Calendar.getInstance();
+    public static int mYear;
+    public static int mMonth;     //第一次获取日期的月
+    public static int mDay;      //第一次获取日期的天
+    Calendar calendar2 = Calendar.getInstance();
+    int mYear2;
+    int mMonth2;     //获取日期的月
+    int mDay2;      //获取日期的天
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,11 @@ public class RateActivity extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_rate);
         rmb=findViewById(R.id.rmb);
         show=findViewById(R.id.showout);
+        //获取时间
+        mYear2 = Integer.parseInt((String.valueOf(calendar2.get(Calendar.YEAR))));
+        mMonth2 = Integer.parseInt(String.valueOf(calendar2.get(Calendar.MONTH) + 1));
+        mDay2 = Integer.parseInt(String.valueOf(calendar2.get(Calendar.DAY_OF_MONTH)));
+        Log.i(TAG, "time:" +mYear2+" ！！ "+ mMonth2+"  "+mDay2);
         //获得sp中保存的数据
         SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
         SharedPreferences s=PreferenceManager.getDefaultSharedPreferences(this);//名字不能改
@@ -80,6 +93,65 @@ public class RateActivity extends AppCompatActivity implements Runnable{
 
         };//匿名类
     }
+    //保存内容！
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        String dollar=((TextView)findViewById(R.id.dollar)).getText().toString();
+//        String euro=((TextView)findViewById(R.id.euro)).getText().toString();
+//        String won=((TextView)findViewById(R.id.won)).getText().toString();
+//        outState.putString("dollar-rate",dollar);
+//        outState.putString("euro-rate",euro);
+//        outState.putString("won-rate",won);
+//        Log.i(TAG,"onSaveInstanceState:");
+//    }
+//    //获得内容
+//    @Override
+//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        String dollar=savedInstanceState.getString("dollar-rate");
+//        String euro=savedInstanceState.getString("euro-rate");
+//        String won=savedInstanceState.getString("won-rate");
+//        ((TextView)findViewById(R.id.dollar)).setText(dollar);
+//        ((TextView)findViewById(R.id.euro)).setText(euro);
+//        ((TextView)findViewById(R.id.won)).setText(won);
+//        Log.i(TAG,"onRestoreInstanceState:");
+//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart:");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume:");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG,"onRestart:");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause:");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop:");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy:");
+    }
+
     public void onClick(View btn){
         String str=rmb.getText().toString();//获取用户输入类型
         float r;
@@ -175,16 +247,17 @@ public class RateActivity extends AppCompatActivity implements Runnable{
     @Override
     public void run() {
         Log.i(TAG, "run: run()......");
-        for (int i = 1; i < 3; i++) {
-            Log.i(TAG, "run: i=" + i);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i = 1; i < 3; i++) {
+//            Log.i(TAG, "run: i=" + i);
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         //用于保存获取的数据
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         //获取MSG对象，用于返回主线程
        /* Message msg = handler.obtainMessage(5);
         //msg.what = 5;
@@ -204,55 +277,65 @@ public class RateActivity extends AppCompatActivity implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        Document doc;
-        try {
-            doc = Jsoup.connect("https://www.usd-cny.com/bankofchina.htm").get();
-           // doc=Jsoup.parse(html);
+        count++;
+        Log.i(TAG, "count=" + count);
 
-            Log.i(TAG, "run:" + doc.title());
+        Document doc;
+        if (count<=1||mYear!=mYear2||mMonth!=mMonth2||mDay!=mDay2) {
+            mYear = Integer.parseInt(String.valueOf(calendar.get(Calendar.YEAR)));
+           mMonth = Integer.parseInt(String.valueOf(calendar.get(Calendar.MONTH) + 1));
+           mDay = Integer.parseInt(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+            Log.i(TAG, "time:" +mYear+"    "+ mMonth+"  "+mDay);
+            try {
+                doc = Jsoup.connect("https://www.usd-cny.com/bankofchina.htm").get();
+                // doc=Jsoup.parse(html);
+
+                Log.i(TAG, "run:" + doc.title());
             /*Elements trs=doc.getElementsByTag("tr");
             int i=1;
             for(Element tr:trs){
                 Log.i(TAG,"run:tr["+i+"]="+tr);
                 i++;
             }*/
-            Elements tds=doc.getElementsByTag("td");
+                Elements tds = doc.getElementsByTag("td");
 
             /*for(Element td:tds){
                 //Log.i(TAG,"run:td="+td);
                 Log.i(TAG,"run:text="+td.text());
                // Log.i(TAG,"run:html="+td.html());
             }*/
-            for(int i=0;i<tds.size();i+=6){
-                Element td1=tds.get(i);
-                Element td2=tds.get(i+5);
-                Log.i(TAG,"run:text="+td1.text()+"==>"+td2.text());
-                String str1=td1.text();
-                String val=td2.text();
-                if("美元".equals(str1)){
-                    bundle.putFloat("dollar-rate",100f/Float.parseFloat(val));
-                } else if("欧元".equals(str1)){
-                    bundle.putFloat("euro-rate",100f/Float.parseFloat(val));
-                } else if("韩元".equals(str1)){
-                    bundle.putFloat("won-rate",100f/Float.parseFloat(val));
-                }
+                for (int i = 0; i < tds.size(); i += 6) {
+                    Element td1 = tds.get(i);
+                    Element td2 = tds.get(i + 5);
+                    //Log.i(TAG,"run:text="+td1.text()+"==>"+td2.text());
+                    String str1 = td1.text();
+                    String val = td2.text();
 
-            }
+                    if ("美元".equals(str1)) {
+                        bundle.putFloat("dollar-rate", 100f / Float.parseFloat(val));
+
+                    } else if ("欧元".equals(str1)) {
+                        bundle.putFloat("euro-rate", 100f / Float.parseFloat(val));
+                    } else if ("韩元".equals(str1)) {
+                        bundle.putFloat("won-rate", 100f / Float.parseFloat(val));
+                    }
+
+                }
             /*Elements newsHeadlines = doc.select("#mp-itn b a");
             for (Element headline : newsHeadlines) {
                 Log.i(TAG, "%s\n\t%s" + headline.attr("title") + headline.absUrl("href"));
             }*/
-            //获取td中的元素
+                //获取td中的元素
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bundle中保存所获取的汇率
+            //获取MSG对象，用于返回主线程
+            Message msg = handler.obtainMessage(5);
+            //msg.what = 5;
+            msg.obj = bundle;
+            handler.sendMessage(msg);
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    //bundle中保存所获取的汇率
-        //获取MSG对象，用于返回主线程
-        Message msg = handler.obtainMessage(5);
-        //msg.what = 5;
-        msg.obj = bundle;
-        handler.sendMessage(msg);
     }
     private String inputStream2String(InputStream inputStream) throws  IOException {
         final int bufferSize = 1024;
