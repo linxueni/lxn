@@ -254,7 +254,15 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             Intent config = openConfig();
             //startActivity(config);
             startActivityForResult(config,1);
-
+        }else  if(item.getItemId()==R.id.open_list){
+            Intent list = new Intent(this, RateListActivity.class);
+            list.putExtra("dollar_rate_key", dollarRate);
+            list.putExtra("euro_rate_key", euroRate);
+            list.putExtra("won_rate_key", wonRate);
+            Log.i("openone", "dollarRate=" + dollarRate);
+            Log.i("openone", "euroRate=" + euroRate);
+            Log.i("openone", "wonRate=" + wonRate);
+            startActivity(list);
         }
         return super.onOptionsItemSelected(item);
     }
