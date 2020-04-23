@@ -29,7 +29,7 @@ Handler handler;
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_rate_list);
         List<String> list1 = new ArrayList<String>();
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 101; i++) {
             list1.add("item" + i);
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
