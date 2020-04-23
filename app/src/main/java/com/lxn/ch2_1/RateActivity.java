@@ -273,7 +273,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
 //        for (int i = 1; i < 3; i++) {
 //            Log.i(TAG, "run: i=" + i);
 //            try {
-//                Thread.sleep(2000);
+//                Thread.sleep(2000);//休眠
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
