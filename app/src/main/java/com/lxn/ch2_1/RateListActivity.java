@@ -10,7 +10,7 @@ String data[]={"one","two","three"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_rate_list);不能有！！
+        //setContentView(R.layout.activity_rate_list);
         ListAdapter adapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
         setListAdapter(adapter);
 
