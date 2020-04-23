@@ -14,7 +14,7 @@ public class MylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mylist);
         ListView listView=findViewById(R.id.listview);
-        String data[]={"","111","222","333"};
+        String data[]={"777","111","222","333"};
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
         listView.setAdapter(adapter);
     }
