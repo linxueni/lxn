@@ -255,7 +255,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             //startActivity(config);
             startActivityForResult(config,1);
         }else  if(item.getItemId()==R.id.open_list){
-            Intent list = new Intent(this, RateListActivity.class);
+            Intent list = new Intent(this, MylistActivity.class);
             list.putExtra("dollar_rate_key", dollarRate);
             list.putExtra("euro_rate_key", euroRate);
             list.putExtra("won_rate_key", wonRate);
