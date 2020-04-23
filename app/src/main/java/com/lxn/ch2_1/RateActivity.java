@@ -65,7 +65,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
 
         //获取当前时间
         Date today= Calendar.getInstance().getTime();
-        SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd");
         final String todayStr=sdf.format(today);
         Log.i(TAG, "onCreate: sp dollarRate=" + dollarRate);
         Log.i(TAG, "onCreate: sp euroRate=" + euroRate);
@@ -82,11 +82,11 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             Log.i(TAG,"不需要更新");
         }
         handler=new Handler(){
-            @Override
-            public void handleMessage(Message msg){
+                        @Override
+                        public void handleMessage(Message msg){
 
-                if(msg.what==5){
-                    Bundle bdl=(Bundle)msg.obj;
+                            if(msg.what==5){
+                                Bundle bdl=(Bundle)msg.obj;
                     dollarRate=bdl.getFloat("dollar-rate");
                     euroRate=bdl.getFloat("euro-rate");
                     wonRate=bdl.getFloat("won-rate");
