@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,7 +52,6 @@ public class RateActivity extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_rate);
         rmb=findViewById(R.id.rmb);
         show=findViewById(R.id.showout);
-        //获取时间
 
         //获得sp中保存的数据
         SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
@@ -65,7 +63,7 @@ public class RateActivity extends AppCompatActivity implements Runnable{
 
         //获取当前时间
         Date today= Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd");
+       SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd");
         final String todayStr=sdf.format(today);
         Log.i(TAG, "onCreate: sp dollarRate=" + dollarRate);
         Log.i(TAG, "onCreate: sp euroRate=" + euroRate);
@@ -249,13 +247,13 @@ public class RateActivity extends AppCompatActivity implements Runnable{
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected( MenuItem item) {
         if(item.getItemId()==R.id.menu_set){
             Intent config = openConfig();
             //startActivity(config);
             startActivityForResult(config,1);
         }else  if(item.getItemId()==R.id.open_list){
-            Intent list = new Intent(this, MylistActivity.class);
+            Intent list = new Intent(this, Mylist2Activity.class);
             list.putExtra("dollar_rate_key", dollarRate);
             list.putExtra("euro_rate_key", euroRate);
             list.putExtra("won_rate_key", wonRate);
@@ -426,8 +424,6 @@ public class RateActivity extends AppCompatActivity implements Runnable{
 
         }return out.toString();
     }
-
-
     /* public void startTimer(String message, int seconds) {
         Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
                 .putExtra(AlarmClock.EXTRA_MESSAGE, message)
