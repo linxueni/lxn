@@ -182,7 +182,7 @@ public class Mylist2Activity extends ListActivity implements Runnable, AdapterVi
         }).setNegativeButton("否",null);
         builder.create().show();
         Log.i(TAG,"onItemLongclick:size="+listItems.size());
-        return true;//true不调用短按方法
+        return true;//true不调用短按方法。
     }
 }
 
