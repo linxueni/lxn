@@ -60,7 +60,6 @@ public class RateActivity extends AppCompatActivity implements Runnable{
         euroRate=sp.getFloat("euro_rate",0.0f);
         wonRate=sp.getFloat("won_rate",0.0f);
         updateDate=sp.getString("update_date","");
-
         //获取当前时间
         Date today= Calendar.getInstance().getTime();
        SimpleDateFormat  sdf=new SimpleDateFormat("yyyy-MM-dd");

@@ -20,4 +20,6 @@
     <string name="btn_save_label">Save</string>
     <string name="menu_set">setting</string>
     <string name="open_list">OpenList</string>
+    <string name="key_word">Input key word</string>
+    <string name="get_word">get message</string>
 </resources>

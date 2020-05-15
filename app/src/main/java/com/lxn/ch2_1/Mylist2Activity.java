@@ -1,6 +1,8 @@
 package com.lxn.ch2_1;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,10 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Mylist2Activity extends ListActivity implements Runnable, AdapterView.OnItemClickListener {
+public class Mylist2Activity extends ListActivity implements Runnable, AdapterView.OnItemClickListener , AdapterView.OnItemLongClickListener {
     Handler handler;
     private final String TAG = "mylist2";
-    private ArrayList<HashMap<String, String>> listItems;//存放文字，图片信息
+    private List<HashMap<String, String>> listItems;//存放文字，图片信息
     private SimpleAdapter listItemAdapter;//适配器
 
     @Override
@@ -44,8 +46,8 @@ public class Mylist2Activity extends ListActivity implements Runnable, AdapterVi
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 7) {
-                    List<HashMap<String,String>>list2 = (List<HashMap<String, String>>) msg.obj;
-                    listItemAdapter = new SimpleAdapter(Mylist2Activity.this, list2,//listTtems数据源
+                    listItems = (List<HashMap<String, String>>) msg.obj;
+                    listItemAdapter = new SimpleAdapter(Mylist2Activity.this, listItems,//listTtems数据源
                             R.layout.list_item,//ListItem的XML布局实现
                             new String[]{"ItemTitle", "ItemDetail"},
                             new int[]{R.id.itemTitle, R.id.itemDetail}
@@ -63,6 +65,7 @@ public class Mylist2Activity extends ListActivity implements Runnable, AdapterVi
         //  }
         //});
         getListView().setOnItemClickListener(this);
+        getListView().setOnItemLongClickListener(this);
 
     }
 
@@ -110,7 +113,6 @@ public class Mylist2Activity extends ListActivity implements Runnable, AdapterVi
                 map.put("ItemTitle", str1);
                 map.put("ItemDetail", val);
                 retList.add(map);
-
 //
             }
         } catch (IOException | InterruptedException e) {
@@ -147,6 +149,40 @@ public class Mylist2Activity extends ListActivity implements Runnable, AdapterVi
         startActivity(rateCalc);
 
 
+    }
+
+    /**
+     * Callback method to be invoked when an item in this view has been
+     * clicked and held.
+     * <p>
+     * Implementers can call getItemAtPosition(position) if they need to access
+     * the data associated with the selected item.
+     *
+     * @param parent   The AbsListView where the click happened
+     * @param view     The view within the AbsListView that was clicked
+     * @param position The position of the view in the list
+     * @param id       The row id of the item that was clicked
+     * @return true if the callback consumed the long click, false otherwise
+     */
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        Log.i(TAG,"onItemLongclick:长按列表项position="+position);
+        //删除操作
+//        listItems.remove(position);
+//        listItemAdapter.notifyDataSetChanged();
+        //构造对话框进行确认操作
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("提示").setMessage("请确认是否删除该数据").setPositiveButton("是", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG,"对话框事件处理：");
+                listItems.remove(position);
+          listItemAdapter.notifyDataSetChanged();
+            }
+        }).setNegativeButton("否",null);
+        builder.create().show();
+        Log.i(TAG,"onItemLongclick:size="+listItems.size());
+        return true;//true不调用短按方法
     }
 }
 

@@ -21,4 +21,6 @@
     <string name="btn_save_label">保存</string>
     <string name="menu_set">设置</string>
     <string name="open_list">打开列表</string>
+    <string name="key_word">请输入关键字</string>
+    <string name="get_word">获取信息</string>
 </resources>
