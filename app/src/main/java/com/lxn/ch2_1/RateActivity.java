@@ -252,14 +252,25 @@ public class RateActivity extends AppCompatActivity implements Runnable{
             //startActivity(config);
             startActivityForResult(config,1);
         }else  if(item.getItemId()==R.id.open_list){
-            Intent list = new Intent(this, Mylist2Activity.class);
-            list.putExtra("dollar_rate_key", dollarRate);
-            list.putExtra("euro_rate_key", euroRate);
-            list.putExtra("won_rate_key", wonRate);
-            Log.i("openone", "dollarRate=" + dollarRate);
-            Log.i("openone", "euroRate=" + euroRate);
-            Log.i("openone", "wonRate=" + wonRate);
+            Intent list = new Intent(this, RateListActivity.class);
+//            list.putExtra("dollar_rate_key", dollarRate);
+//            list.putExtra("euro_rate_key", euroRate);
+//            list.putExtra("won_rate_key", wonRate);
+//            Log.i("openone", "dollarRate=" + dollarRate);
+//            Log.i("openone", "euroRate=" + euroRate);
+//            Log.i("openone", "wonRate=" + wonRate);
             startActivity(list);
+            //测试数据
+//            RateItem item1=new RateItem("aaaa","123");
+//            RateManager manager=new RateManager(this);
+//            manager.add(item1);
+//            manager.add(new RateItem("bbbb","23.5"));
+//            Log.i(TAG,"写入数据完毕");
+//            //查询数据
+//            List<RateItem> testlist=manager.listAll();
+//            for(RateItem i:testlist){
+//                Log.i(TAG,"取出数据：id="+i.getId()+" Name="+i.getCurName()+" Rate="+i.getCurRate());
+//            }
         }
         return super.onOptionsItemSelected(item);
     }
