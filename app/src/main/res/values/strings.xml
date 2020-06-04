@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ch2_1</string>
     <string name="str1">华氏温度：</string>
     <string name="button">转换为华氏温度</string>
@@ -22,4 +22,36 @@
     <string name="open_list">OpenList</string>
     <string name="key_word">Input key word</string>
     <string name="get_word">get message</string>
+    <string name="title_activity_settings" tools:ignore="MissingTranslation">Settings</string>
+    <string name="settings_title" tools:ignore="MissingTranslation">配置页面</string>
+
+    <!-- 控件标签 -->
+    <string name="set_switch1_label" tools:ignore="MissingTranslation">开关项</string>
+    <string name="set_checkbox1_label" tools:ignore="MissingTranslation">复选项</string>
+    <string name="set_list_label" tools:ignore="MissingTranslation">列表项</string>
+    <string name="set_text1_label" tools:ignore="MissingTranslation">选项1</string>
+    <string name="set_text2_label" tools:ignore="MissingTranslation">选项2</string>
+    <string name="set_group1_label" tools:ignore="MissingTranslation">分组1</string>
+    <string name="set_group2_label" tools:ignore="MissingTranslation">分组2</string>
+
+    <!-- 控件ID -->
+    <string name="set_switch1_key" tools:ignore="MissingTranslation">set_switch1</string>
+    <string name="set_checkbox1_key" tools:ignore="MissingTranslation">set_checkbox1</string>
+    <string name="set_list_key" tools:ignore="MissingTranslation">set_list</string>
+    <string name="set_text1_key" tools:ignore="MissingTranslation">set_text1</string>
+    <string name="set_text2_key" tools:ignore="MissingTranslation">set_text2</string>
+    <!-- Preference Titles -->
+    <string name="messages_header" tools:ignore="MissingTranslation">Messages</string>
+    <string name="sync_header" tools:ignore="MissingTranslation">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" tools:ignore="MissingTranslation">Your signature</string>
+    <string name="reply_title" tools:ignore="MissingTranslation">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" tools:ignore="MissingTranslation">Sync email periodically</string>
+    <string name="attachment_title" tools:ignore="MissingTranslation">Download incoming attachments</string>
+    <string name="attachment_summary_on" tools:ignore="MissingTranslation">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" tools:ignore="MissingTranslation">Only download attachments when manually requested</string>
 </resources>
